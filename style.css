@@ -80,10 +80,18 @@ h1 {
   border-bottom: none;
 }
 
+.task-checkbox {
+  cursor: pointer;
+}
+
 .task-text {
   flex: 1;
   word-break: break-word;
   cursor: pointer;
+}
+
+.task-item.completed {
+  background: #e6f4ea;
 }
 
 .task-item.completed .task-text {
@@ -103,6 +111,13 @@ h1 {
 
 .delete-btn:hover {
   color: #c03d3d;
+}
+
+.task-counter {
+  margin: 12px 0 0;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #999;
 }
 
 .empty-message {
