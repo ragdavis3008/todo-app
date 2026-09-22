@@ -3,6 +3,7 @@ const STORAGE_KEY = "todo-app-tasks";
 const form = document.getElementById("task-form");
 const input = document.getElementById("task-input");
 const list = document.getElementById("task-list");
+const counter = document.getElementById("task-counter");
 
 function loadTasks() {
   const raw = localStorage.getItem(STORAGE_KEY);
@@ -13,9 +14,15 @@ function saveTasks(tasks) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
 }
 
+function updateCounter(tasks) {
+  const remaining = tasks.filter((t) => !t.done).length;
+  counter.textContent = `${remaining} ${remaining === 1 ? "task" : "tasks"} left`;
+}
+
 function render() {
   const tasks = loadTasks();
   list.innerHTML = "";
+  updateCounter(tasks);
 
   if (tasks.length === 0) {
     const empty = document.createElement("li");
@@ -29,6 +36,12 @@ function render() {
     const li = document.createElement("li");
     li.className = "task-item" + (task.done ? " completed" : "");
 
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.className = "task-checkbox";
+    checkbox.checked = task.done;
+    checkbox.addEventListener("change", () => toggleTask(task.id));
+
     const span = document.createElement("span");
     span.className = "task-text";
     span.textContent = task.text;
@@ -39,6 +52,7 @@ function render() {
     deleteBtn.textContent = "✕";
     deleteBtn.addEventListener("click", () => deleteTask(task.id));
 
+    li.appendChild(checkbox);
     li.appendChild(span);
     li.appendChild(deleteBtn);
     list.appendChild(li);
